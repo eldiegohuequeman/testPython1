@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="container mt-5 mb-5">    
+    
+
+<a href="/atenderPedriatria" class="btn btn-success">Sala espera</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>N° Historial Medico</th>
+            </tr>
+         
+      
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{d.1}}</td>
+                <td>{{d.2}}</td>
+                <td>{{d.3}}</td>
+                <td>
+                    <!-- eliomina el registro de sala espera -->
+                    <a href="/salaEspera/{{d.0}}" class="btn btn-primary">Pasar a sala espera</a>
+                </td>
+         
+      
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="container mt-5 mb-5">
+    <h2 class="text-center">Consultas</h2>
+
+    <div class="container">
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#liberar">
+            Liberar Consultas
+          </button>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#max">
+            Consulta con ams pacientes
+          </button>
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Tipo Consulta</th>
+                <th scope="col">Especialista</th>
+                <th scope="col">Cantidad Pacientes Atendidos</th>
+                <th scope="col">Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for d in data %}
+              <tr>
+                <td>{{d.3}}</td>
+                <td>{{d.2}}</td>
+                <td>{{d.1}}</td>
+                <td>{{d.4}}</td>
+            </tr>
+            {%endfor%}
+  
+            </tbody>
+          </table>
+          
+         
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="liberar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Liberar Consultas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/liberarConsulta" method="GET">
+           <h5>Al liberqar consultas pasaran a estar disponibles para los pacientes en sala de espera</h5>
+           <p>¿Estas seguro?</p>
+            <button type="submit" class="btn btn-warning">Liberar</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="max" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Consulta con mas pacientes</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Tipo Consulta</th>
+                    <th scope="col">Especialista</th>
+                    <th scope="col">Cantidad Pacientes Atendidos</th>
+                    <th scope="col">Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for d in max %}
+                  <tr>
+                    <td>{{d.3}}</td>
+                    <td>{{d.2}}</td>
+                    <td>{{d.1}}</td>
+                    <td>{{d.4}}</td>
+                </tr>
+                {%endfor%}
+      
+                </tbody>
+              </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

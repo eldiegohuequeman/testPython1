@@ -1,0 +1,164 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="container mt-5 mb-5">    
+    
+<a href="/atenderPedriatria" class="btn btn-success">Pedriatria</a>
+<a href="/atenderUrgencia" class="btn btn-success">Urgencia</a>
+<a href="/atenderGeneral" class="btn btn-success">Consulta General Integral</a>
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#masAnciano">
+    Paciente mas anciano
+  </button>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>N° Historial Medico</th>
+                <th>Prioridad</th>
+            </tr>
+         
+      
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{d.1}}</td>
+                <td>{{d.2}}</td>
+                <td>{{d.3}}</td>
+                <td>{{d.5}}</td>
+         
+                <td> 
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#atender">
+                    Atender
+                  </button>
+                </td>
+            </tr>
+
+              <!-- Modal aceptar consulta -->
+              <div class="modal fade" id="atender" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Asignar consulta</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/insert_consultaPaciente/{{d.0}}" method="POST">
+                        <div class="form-group">
+                            <label for="">Consultas disponibles</label> <br>
+                            <select name="consulta" id="">
+                                {% for d in consulta %}
+                                <option value="{{d.0}}">{{d.3}}-{{d.2}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Asignar</button>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/insert_ninos" method="POST">
+            <div class="form-group">
+                <label for="">nombre</label>
+                <input type="text" name="nombre" id="">
+            </div>
+            <div class="form-group">
+                <label for="">peso</label>
+                <input type="text" name="peso" id="">
+            </div>
+            <div class="form-group">
+                <label for="">edad</label>
+                <input type="text" name="edad" id="">
+            </div>
+            <div class="form-group">
+                <label for="">estatura</label>
+                <input type="text" name="estatura" id="">
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Modal mas anciano-->
+<div class="modal fade" id="masAnciano" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos Paciente mas Anciano</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th>N° Historial Medico</th>
+                    <th>Prioridad</th>
+                </tr>
+             
+          
+            </thead>
+            <tbody>
+                {% for d in maxEdad %}
+                <tr>
+                    <td>{{d.1}}</td>
+                    <td>{{d.2}}</td>
+                    <td>{{d.3}}</td>
+                    <td>{{d.5}}</td>
+             
+     
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock %}
